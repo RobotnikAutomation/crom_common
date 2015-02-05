@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+       xmlns:xacro="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+       name="lwa4p" >
+
+
+
+	
+
+
+	<!-- common stuff -->
+	<include filename="$(find cob_description)/urdf/common.xacro" />
+	<include filename="$(find schunk_description)/urdf/materials.urdf.xacro" />
+	<include filename="$(find cob_description)/gazebo/gazebo.urdf.xacro" />
+	<!-- calibration -->
+	<include filename="$(find schunk_hardware_config)/lwa4p/calibration/calibration.urdf.xacro" />
+
+	<!-- schunk powerball -->
+	<!--include filename="$(find robotnik_powerball_basics)/urdf/powerball_robotnik.urdf.xacro"/-->
+	<include filename="$(find robotnik_powerball_basics)/urdf/lwa4p.urdf.xacro" /> 
+	
+	<!-- foot for arm -->
+	<link name="base_link">
+
+	</link>
+	<!-- LEFT ARM -->
+	<xacro:schunk_lwa4p name="left_arm" parent="base_link">
+	<origin xyz="0 0 0" rpy="0 0 0" />
+	</xacro:schunk_lwa4p>
+
+</robot>

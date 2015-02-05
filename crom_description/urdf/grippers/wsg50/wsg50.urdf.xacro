@@ -1,0 +1,219 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!-- Import all Gazebo-customization elements, including Gazebo colors -->
+<xacro:include filename="$(find crom_description)/urdf/grippers/wsg50/wsg50.gazebo" />
+
+<xacro:macro name="wsg50" params="parent name *origin">
+
+	<joint name="${name}_gripper_base_joint" type="fixed">
+		<insert_block name="origin"/>
+		<parent link="${parent}"/>
+		<child link="${name}_gripper_start_link"/>
+	</joint>
+
+	<!-- BASE LINK -->
+	<link name="${name}_gripper_start_link">
+	  <inertial>
+		  <mass value="1.2" />
+		  <origin xyz="0 0 0" />
+		  <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="1.0"  iyz="0.0"  izz="1.0" />
+	  </inertial>
+
+	  <visual>
+		  <origin xyz="0.0 0 0" rpy="0 0 0" />
+		  <geometry>
+			 <mesh filename="package://crom_description/meshes/grippers/wsg50/dae/WSG50_110.dae" scale="0.001 0.001 0.001"/>
+		  </geometry>
+		  <material name="Gazebo/Grey" />
+	  </visual>
+
+	  <collision>
+		  <origin xyz="0.0 0 0" rpy="0 0 0" />
+		  <geometry>
+			 <mesh filename="package://crom_description/meshes/grippers/wsg50/dae/WSG50_110.dae" scale="0.001 0.001 0.001"/>
+		 </geometry>
+	 </collision>
+	</link>
+
+	<!-- LEFT FINGER BASE -->
+	<joint name="${name}_finger_1_start_joint" type="prismatic">
+		<limit lower="-0.057" upper="-0.00" effort="1.0" velocity="1.0"/>
+		<origin xyz="0.0 0.0 0.0005" rpy="-1.57 0 3.14159" />      <!--origin xyz="-0.0067 0 0.049" rpy="0 0 0" /-->
+		<parent link="${name}_gripper_start_link"/>
+		<child link="${name}_finger_1_start_link" />
+		<dynamics friction="100" damping="100" />
+		<axis xyz="-1 0 0"/>
+		<limit effort="100" velocity="100"/>
+	</joint>
+	
+	<transmission name="${name}_finger_1_start_joint_trans">
+		<type>transmission_interface/SimpleTransmission</type>
+		<joint name="${name}_finger_1_start_joint" />
+		<actuator name="${name}_finger_1_start_joint_motor">
+			<hardwareInterface>PositionJointInterface</hardwareInterface>
+			<!-- hardwareInterface>VelocityJointInterface</hardwareInterface -->
+			<mechanicalReduction>1</mechanicalReduction>
+		</actuator>
+	</transmission>
+
+	<link name="${name}_finger_1_start_link">
+	  <inertial>
+		  <mass value="0.1" />
+		  <origin xyz="0 0 0" />
+	  <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+			   iyy="1.0" iyz="0.0" 
+			   izz="1.0" />
+	  </inertial>
+
+	  <visual>
+		  <origin xyz="0.0 0 0" rpy="0 0 0" />
+		  <geometry>
+			 <mesh filename="package://crom_description/meshes/grippers/wsg50/dae/GUIDE_WSG50_110_SIMPLE.dae"/>
+		  </geometry>
+		  <material name="black">
+				<color rgba="0.5 0.5 0.5 1"/>
+		  </material>
+	  </visual>
+
+	  <collision>
+		  <origin xyz="0 0 0" rpy="0 0 0" />
+		  <geometry>
+			 <mesh filename="package://crom_description/meshes/grippers/wsg50/dae/GUIDE_WSG50_110_SIMPLE.dae"/>
+		  </geometry>
+	 </collision>
+	</link>
+
+
+	<!-- LEFT FINGER -->
+
+	<joint name="${name}_finger_1_joint" type="fixed">
+		<origin xyz="0 -0.0235 0.0" rpy="1.57 3.14159 0" />
+		<parent link="${name}_finger_1_start_link"/>
+		<child link="${name}_finger_1_link" />
+		<dynamics friction="100" damping="100" />
+		<axis xyz="1 0 0"/>
+		<limit effort="100" velocity="100"/>
+	</joint>
+
+	<link name="${name}_finger_1_link">
+	  <inertial>
+		  <mass value="0.1" />
+		  <origin xyz="0 0 0" />
+	  <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+			   iyy="1.0" iyz="0.0" 
+			   izz="1.0" />
+	  </inertial>
+
+	  <visual>
+		  <origin xyz="0.0 0 0" rpy="0 0 0" />
+		  <geometry>
+			 <mesh filename="package://crom_description/meshes/grippers/wsg50/dae/WSG-FMF.dae" scale="0.001 0.001 0.001"/>
+		  </geometry>
+		  <material name="black">
+			<color rgba="0.5 0.5 0.5 1"/>
+		  </material>
+	  </visual>
+
+	  <collision>
+		  <origin xyz="0 0 0" rpy="0 0 0" />
+		  <geometry>
+			 <mesh filename="package://crom_description/meshes/grippers/wsg50/dae/WSG-FMF.dae" scale="0.001 0.001 0.001"/>
+		 </geometry>
+	 </collision>
+	</link>
+
+	
+	<!-- RIGHT FINGER BASE -->
+
+	<joint name="${name}_finger_2_start_joint" type="prismatic">
+	 <limit lower="0.00" upper="0.055" effort="1.0" velocity="1.0"/>
+	 <origin xyz="0.0 0 0.0005" rpy="-1.57 0 0" />
+	 <parent link="${name}_gripper_start_link"/>
+	 <child link="${name}_finger_2_start_link" />
+	 <axis xyz="1 0 0"/>
+	 <dynamics friction="100" damping="100" />
+	 <limit effort="100" velocity="100"/>
+	</joint>
+	
+	<transmission name="${name}_finger_2_start_joint_trans">
+		<type>transmission_interface/SimpleTransmission</type>
+		<joint name="${name}_finger_2_start_joint" />
+		<actuator name="${name}_finger_2_start_joint_motor">
+			<hardwareInterface>PositionJointInterface</hardwareInterface>
+			<!-- hardwareInterface>VelocityJointInterface</hardwareInterface -->
+			<mechanicalReduction>1</mechanicalReduction>
+		</actuator>
+	</transmission>
+
+	<link name="${name}_finger_2_start_link">
+	  <inertial>
+		  <mass value="0.1" />
+		  <origin xyz="0 0 0" />
+	  <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+			   iyy="1.0" iyz="0.0" 
+			   izz="1.0" />
+	  </inertial>
+
+	  <visual>
+		  <origin xyz="0.0 0 0" rpy="0 0 0" />
+		  <geometry>
+			 <mesh filename="package://crom_description/meshes/grippers/wsg50/dae/GUIDE_WSG50_110_SIMPLE.dae"/>
+		  </geometry>
+		  <material name="black">
+				<color rgba="0.5 0.5 0.5 1"/>
+		  </material>
+	  </visual>
+
+	  <collision>
+		  <origin xyz="0 0 0" rpy="0 0 0" />
+		  <geometry>
+			 <mesh filename="package://crom_description/meshes/grippers/wsg50/dae/GUIDE_WSG50_110_SIMPLE.dae"/>
+		 </geometry>
+	 </collision>
+	</link>
+
+	<!-- RIGHT FINGER -->
+	<joint name="${name}_finger_2_joint" type="fixed">
+		<origin xyz="0 -0.0235 0" rpy="-1.57 0 3.14" />
+		<parent link="${name}_finger_2_start_link"/>
+		<child link="${name}_finger_2_link" />
+		<dynamics friction="100" damping="100" />
+		<axis xyz="1 0 0"/>
+		<limit effort="100" velocity="100"/>
+	</joint>
+
+	<link name="${name}_finger_2_link">
+	  <inertial>
+		  <mass value="0.1" />
+		  <origin xyz="0 0 0" />
+	  <inertia ixx="1.0" ixy="0.0" ixz="0.0"
+			   iyy="1.0" iyz="0.0" 
+			   izz="1.0" />
+	  </inertial>
+
+	  <visual>
+		  <origin xyz="0.0 0 0" rpy="0 0 0" />
+		  <geometry>
+			 <mesh filename="package://crom_description/meshes/grippers/wsg50/dae/WSG-FMF.dae" scale="0.001 0.001 0.001"/>
+		  </geometry>
+		  <material name="black">
+			<color rgba="0.5 0.5 0.5 1"/>
+		  </material>
+	  </visual>
+
+	  <collision>
+		  <origin xyz="0 0 0" rpy="0 0 0" />
+		  <geometry>
+			 <mesh filename="package://crom_description/meshes/grippers/wsg50/dae/WSG-FMF.dae" scale="0.001 0.001 0.001"/>
+		 </geometry>
+	 </collision>
+	</link>
+	
+	<!-- Import all Gazebo-customization elements, including Gazebo colors -->
+	<xacro:wsg50_gazebo name="${name}" />
+	
+</xacro:macro>
+
+</robot>
+

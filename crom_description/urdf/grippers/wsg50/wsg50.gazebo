@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+	<xacro:macro name="wsg50_gazebo" params="name">
+
+		<gazebo reference="${name}_gripper_start_link">	
+			<material>Gazebo/Grey</material>
+			<turnGravityOff>false</turnGravityOff>
+		</gazebo>
+	
+		<gazebo reference="${name}_finger_1_start_link">
+			<material>Gazebo/Red</material>
+			<turnGravityOff>true</turnGravityOff>
+		</gazebo>
+
+		<gazebo reference="${name}_finger_1_link">
+			<material>Gazebo/Red</material>
+			<turnGravityOff>true</turnGravityOff>
+		</gazebo>
+
+		<gazebo reference="${name}_finger_2_start_link">
+			<material>Gazebo/White</material>
+			<turnGravityOff>true</turnGravityOff>
+		</gazebo>
+
+		<gazebo reference="${name}_finger_2_link">
+			<material>Gazebo/White</material>
+			<turnGravityOff>true</turnGravityOff>
+		</gazebo>
+
+	</xacro:macro>
+
+</robot>

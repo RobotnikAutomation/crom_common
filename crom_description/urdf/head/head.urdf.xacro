@@ -1,0 +1,239 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"> 
+	
+	<!-- Robot mechanical and motor parameters -->
+	<xacro:property name="PI" value="3.1415926535897931"/>
+	<xacro:property name="head_joint_damping" value="0.0" />
+	<xacro:property name="head_joint_friction" value="0.0" />
+	<xacro:property name="head_joint_effort_limit" value="100.0" />
+	<xacro:property name="head_joint_velocity_limit" value="100.0" />
+	<xacro:property name="head_pan_joint_upper_limit" value="1.5707963" />     <!-- 90 -->
+	<xacro:property name="head_pan_joint_lower_limit" value="-1.5707963" />    <!-- -90 -->
+	<xacro:property name="head_tilt_joint_upper_limit" value="1.047197533" />  <!-- 60 -->
+	<xacro:property name="head_tilt_joint_lower_limit" value="-1.047197533" /> <!-- -60 -->
+	<xacro:property name="head_mechanical_reduction" value="1.0" />
+	
+	<xacro:macro name="robotnik_head" params="parent name *origin">
+
+		<!-- joint between base_link and head_base_link -->
+		<joint name="${name}_pw70_base_joint" type="fixed" >
+			<insert_block name="origin" />
+			<parent link="${parent}" />
+			<child link="${name}_start_link"/>
+			<!--child link="foo_bar_link" /-->
+		</joint>
+
+		<!-- NECK -->
+		<link name="${name}_start_link">
+			<inertial>
+				<origin xyz="0 0 0" rpy="0 0 0" />
+				<mass value="0.30"/>
+				<inertia ixx="0.01" ixy="0" ixz="0" iyy="0.01" iyz="0" izz="0.01" />
+			</inertial>
+				
+			<visual>
+				<origin xyz="0 0 0" rpy="0 0 0" />
+				<geometry>
+					<mesh filename="package://crom_description/meshes/pantilt/pan_tilt1_schunk.dae" />
+				</geometry>
+				<material name="Grey">
+					<color rgba="0.5 0.5 0.5 1.0"/>
+				</material>
+
+			</visual>
+				
+			<collision>
+				<origin xyz="0 0 0" rpy="0 0 0" />
+				<geometry>
+					<mesh filename="package://crom_description/meshes/pantilt/pan_tilt1_schunk.dae" />
+				</geometry>
+			</collision>
+		</link>
+
+		<!-- HEAD-PAN -->
+		<link name="${name}_pan_link">
+			<inertial>
+				<mass value="1.0" />
+				<origin xyz="0 0 0" />
+			<inertia  ixx="0.059" ixy="0.0"  ixz="0.0"  iyy="0.055"  iyz="0.0"  izz="0.059" />
+			</inertial>
+			<visual>
+				<origin xyz="0 0 0" rpy="0 0 0" /> 
+				<geometry>
+					<mesh filename="package://crom_description/meshes/pantilt/pan_tilt2_schunk.dae"/>
+				</geometry>
+				<material name="gray">
+				<color rgba="0.3 0.3 0.3 1"/>
+				</material>
+			</visual>
+			<collision>
+				<origin xyz="0 0 0" rpy="0 0 0" /> 
+				<geometry>
+					<mesh filename="package://crom_description/meshes/pantilt/pan_tilt2_schunk.dae"/>
+				</geometry>
+			</collision>
+		</link>
+
+		<joint name="${name}_pan_joint" type="revolute">
+			<parent link="${name}_start_link"/>
+			<child link="${name}_pan_link"/>
+			<origin xyz="0 0 0.0938" rpy="0 0 0" /> 
+			<axis xyz="0 0 1" rpy="0 0 0" />
+			<limit effort="${head_joint_effort_limit}" velocity="${head_joint_velocity_limit}" upper="${head_pan_joint_upper_limit}" lower="${head_pan_joint_lower_limit}"/>
+			<joint_properties damping="${head_joint_damping}" friction="{head_joint_friction}"/>
+		</joint>
+
+		<transmission name="${name}_joint_pan_trans">
+			 <type>transmission_interface/SimpleTransmission</type>
+			 <joint name="${name}_pan_joint" />
+			 <actuator name="${name}_pan_motor">
+			   <hardwareInterface>PositionJointInterface</hardwareInterface>
+			   <mechanicalReduction>${head_mechanical_reduction}</mechanicalReduction>
+			 </actuator>
+		</transmission>
+
+		<!-- HEAD-TILT -->
+		<link name="${name}_tilt_link">
+			<inertial>
+			  <mass value="1.0" />
+			  <origin xyz="0 0 0" />
+			  <inertia  ixx="0.059" ixy="0.0"  ixz="0.0"  iyy="0.055"  iyz="0.0"  izz="0.059" />
+			</inertial>
+			<visual>
+			   <origin xyz="0 0 0" rpy="0 0 0" /> 
+			   <geometry>
+				 <mesh filename="package://crom_description/meshes/pantilt/pan_tilt3_schunk.dae"/>
+			   </geometry>
+			<material name="gray">
+				<color rgba="0.3 0.3 0.3 1"/>
+				</material>
+			</visual>
+			<collision>
+			   <origin xyz="0 0 0" rpy="0 0 0" /> 
+			   <geometry>
+				 <mesh filename="package://crom_description/meshes/pantilt/pan_tilt3_schunk.dae"/>
+			   </geometry>
+			</collision>
+		</link>
+
+		<joint name="${name}_tilt_joint" type="revolute">
+			<parent link="${name}_pan_link"/>
+			<child link="${name}_tilt_link"/>
+			<origin xyz="0 0 0" rpy="0 0 0" /> 
+			<axis xyz="0 1 0" rpy="0 0 0" />
+			<limit effort="${head_joint_effort_limit}" velocity="${head_joint_velocity_limit}" upper="${head_tilt_joint_upper_limit}" lower="${head_tilt_joint_lower_limit}"/>
+			<joint_properties damping="${head_joint_damping}" friction="{head_joint_friction}"/>
+		</joint>
+
+		<transmission name="${name}_joint_tilt_trans">
+			 <type>transmission_interface/SimpleTransmission</type>
+			 <joint name="${name}_tilt_joint" />
+			 <actuator name="${name}_tilt_motor">
+			   <hardwareInterface>PositionJointInterface</hardwareInterface>
+			   <mechanicalReduction>${head_mechanical_reduction}</mechanicalReduction>
+			 </actuator>
+		</transmission>
+
+		<!-- HEAD-CAMERA STRUCTURE -->
+		<link name="${name}_camera_structure_link">
+			<inertial>
+			  <mass value="1.0" />
+			  <origin xyz="0 0 0" />
+			  <inertia  ixx="0.059" ixy="0.0"  ixz="0.0"  iyy="0.055"  iyz="0.0"  izz="0.059" />
+			</inertial>
+			<visual>
+			   <origin xyz="0 0 0" rpy="0 0 0" /> 
+			   <geometry>
+				 <mesh filename="package://crom_description/meshes/components/cameras_kinect.dae"/>
+			   </geometry>
+			<material name="gray">
+				<color rgba="0.3 0.3 0.3 1"/>
+				</material>
+			</visual>
+			<collision>
+			   <origin xyz="0 0 0" rpy="0 0 0" /> 
+			   <geometry>
+				 <mesh filename="package://crom_description/meshes/components/cameras_kinect.dae"/>
+			   </geometry>
+			</collision>
+		</link>
+
+		<joint name="${name}_camera_structure_joint" type="fixed">
+			<parent link="${name}_tilt_link"/>
+			<child link="${name}_camera_structure_link"/>
+			<origin xyz="0 0 0.07" rpy="0 0 0" /> 
+			<axis xyz="0 0 1" rpy="0 0 0" />
+		</joint>
+
+		<!-- HEAD-CAMERA LEFT -->
+		<link name="${name}_camera_left_link">
+			<inertial>
+				<mass value="0.01" />
+				<origin xyz="0 0 0" />
+				<inertia  ixx="0.059" ixy="0.0"  ixz="0.0"  iyy="0.055"  iyz="0.0"  izz="0.059" />
+			</inertial>
+		</link>
+
+		<joint name="${name}_camera_left_joint" type="fixed">
+			<parent link="${name}_camera_structure_link"/>
+			<child link="${name}_camera_left_link"/>
+			<origin xyz="0.008 0.05 0.0175" rpy="0 0 0" /> 
+			<axis xyz="0 0 1" rpy="0 0 0" />
+		</joint>
+
+		<!-- HEAD-CAMERA RIGHT -->
+		<link name="${name}_camera_right_link">
+			<inertial>
+				<mass value="0.01" />
+				<origin xyz="0 0 0" />
+				<inertia  ixx="0.059" ixy="0.0"  ixz="0.0"  iyy="0.055"  iyz="0.0"  izz="0.059" />
+			</inertial>
+		</link>
+		<joint name="${name}_camera_right_joint" type="fixed">
+			<parent link="${name}_camera_structure_link"/>
+			<child link="${name}_camera_right_link"/>
+			<origin xyz="0.008 -0.05 0.0175" rpy="0 0 0" /> 
+			<axis xyz="0 0 1" rpy="0 0 0" />
+		</joint>
+
+		<!-- HEAD-KINECT -->
+		<link name="${name}_kinect_link">
+			<inertial>
+				<mass value="0.01" />
+				<origin xyz="0 0 0" />
+				<inertia  ixx="0.059" ixy="0.0"  ixz="0.0"  iyy="0.055"  iyz="0.0"  izz="0.059" />
+			</inertial>
+		</link>
+		<joint name="${name}_kinect_joint" type="fixed">
+			<parent link="${name}_camera_structure_link"/>
+			<child link="${name}_kinect_link"/>
+			<origin xyz="0.030 0.0325 0.0525" rpy="0 0 0" /> 
+			<axis xyz="0 0 1" rpy="0 0 0" />
+		</joint>
+		
+		<!--link name="${name}_kinect_frame_link">
+			<inertial>
+				<mass value="0.01" />
+				<origin xyz="0 0 0" />
+			<inertia  ixx="0.059" ixy="0.0"  ixz="0.0"  iyy="0.055"  iyz="0.0"  izz="0.059" />
+		</inertial>
+		</link>
+		
+		<joint name="${name}_kinect_frame_joint" type="fixed">
+			<parent link="${name}_kinect_link"/>
+			<child link="${name}_kinect_frame_link"/>
+			<origin xyz="0.5 0 0" rpy="0 1.57 1.57" /> 
+			<axis xyz="0 0 1" rpy="0 0 0" />
+		</joint-->
+
+		<!-- Import all Gazebo-customization elements, including Gazebo colors -->
+		<!--include filename="$(find robotnik_torso_description)/urdf/head.gazebo" /-->
+		<xacro:head_gazebo name="${name}" />
+	  
+			
+	    
+	</xacro:macro>
+   
+</robot>
+

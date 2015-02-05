@@ -1,0 +1,329 @@
+<?xml version="1.0"?>
+<robot name="torso" xmlns:xacro="http://www.ros.org/wiki/xacro"> 
+
+  <!-- Import all Gazebo-customization elements, including Gazebo colors -->
+  <xacro:include filename="$(find crom_description)/urdf/robot/crom.gazebo" />
+  
+  <xacro:include filename="$(find crom_description)/urdf/arms/lwa4p/materials.urdf.xacro" />
+  <!-- calibration -->
+  <xacro:include filename="$(find crom_description)/urdf/arms/lwa4p/calibration.urdf.xacro" />
+  <!-- schunk powerball -->
+  <xacro:include filename="$(find crom_description)/urdf/arms/lwa4p/lwa4p.urdf.xacro" /> 
+  <!-- Barrett Hand -->
+  <xacro:include filename="$(find crom_description)/urdf/hands/bhand/bh282.urdf.xacro"/>
+  <!-- Head -->
+  <xacro:include filename="$(find crom_description)/urdf/head/head.urdf.xacro"/>
+  <xacro:include filename="$(find crom_description)/urdf/head/head.gazebo" />
+  <!-- WSG50 GRIPPER -->
+  <xacro:include filename="$(find crom_description)/urdf/grippers/wsg50/wsg50.urdf.xacro" />
+  <!--xacro:include filename="$(find crom_description)/urdf/grippers/wsg50/wsg50.gazebo"/-->
+  
+
+  <!-- Robot mechanical and motor parameters -->
+  <xacro:property name="PI" value="3.1415926535897931"/>
+  <xacro:property name="PI_2" value="1.570796327"/>
+  <xacro:property name="waist_joint_damping" value="0.1" />
+  <xacro:property name="waist_joint_friction" value="0.1" />
+  <xacro:property name="waist_joint_effort_limit" value="100.0" />
+  <xacro:property name="waist_joint_velocity_limit" value="100.0" />
+  <xacro:property name="waist_joint_upper_limit" value="2.967059678" /> <!-- 170 -->
+  <xacro:property name="waist_joint_lower_limit" value="-2.967059678" /> <!-- -170 -->
+  <xacro:property name="waist_mechanical_reduction" value="1.0" />
+
+  <gazebo>
+	<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+	<robotNamespace>/torso</robotNamespace>
+	</plugin>
+  </gazebo>
+  
+  
+  <!-- Used for fixing robot to Gazebo 'base_link' -->
+  <link name="world"/>
+
+  <joint name="fixed" type="fixed">
+	<parent link="world"/>
+	<child link="base_footprint"/>
+  </joint>
+
+  <!-- BASE FOOTPRINT -->
+  <!-- base_footprint is a fictitious link(frame) that is on the ground right below base_link origin,
+             navigation stack depends on this frame -->
+  <link name="base_footprint">
+      <visual>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+             <box size="0.001 0.001 0.001" />
+          </geometry>
+      </visual>
+
+      <collision>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+            <box size="0.001 0.001 0.001" />
+         </geometry>
+     </collision>
+  </link>
+
+  <joint name="base_footprint_joint" type="fixed">
+     <!--NB: While you would think this would make it go up, it is oddly reversed.
+      This moves the joint to 0,0,0 where we want it for rviz, etc. -->
+     <!-- origin xyz="0 0 0.130" rpy="0 0 0" / -->
+     <origin xyz="0 0 0" rpy="0 0 0" />
+     <parent link="base_footprint"/>
+     <child link="base_link" />
+  </joint>
+
+
+	<!-- BASE_LINK (RED) -->
+	<link name="base_link">
+		<inertial>
+		  <mass value="50.0" />
+		  <origin xyz="0 0 0" />
+		  <inertia  ixx="3.737" ixy="0.008"  ixz="-0.144"  iyy="8.311"  iyz="-0.004"  izz="8.893" />
+		</inertial>
+		<visual>
+		   <origin xyz="0 0 0" rpy="0 0 0" />
+		   <geometry>
+		 <mesh filename="package://crom_description/meshes/torso/torso_base.dae"/>
+		   </geometry>
+		</visual>
+		<collision>
+		   <origin xyz="0 0 0" rpy="0 0 0 " />
+		   <geometry>
+			 <mesh filename="package://crom_description/meshes/torso/torso_base.dae"/>
+		   </geometry>
+		</collision>     
+	</link>
+  
+  <!-- BODY -->
+	<link name="waist_link">
+		<inertial>
+		  <mass value="20.0" />
+		  <origin xyz="0 0 0" />
+		  <inertia  ixx="0.059" ixy="0.0"  ixz="0.0"  iyy="0.055"  iyz="0.0"  izz="0.059" />
+		</inertial>
+		<visual>
+		   <origin xyz="0 0 0" rpy="0 0 0" /> 
+		   <geometry>
+			 <mesh filename="package://crom_description/meshes/torso/torso_body.dae"/>
+		   </geometry>
+		<material name="Red">
+			<color rgba="0.3 0.3 0.3 1"/>
+			</material>
+		</visual>
+		<collision>
+		   <origin xyz="0 0 0" rpy="0 0 0" /> 
+		   <geometry>
+			 <mesh filename="package://crom_description/meshes/torso/torso_body.dae"/>
+		   </geometry>
+		</collision>
+	</link>
+
+	<joint name="waist_joint" type="revolute">
+		<parent link="base_link"/>
+		<child link="waist_link"/>
+		<origin xyz="0 0 1.245" rpy="0 0 0" /> 
+		<axis xyz="0 0 -1" rpy="0 0 0" />
+		<calibration rising="0.0"/>
+		<dynamics damping="10" />
+		<safety_controller k_position="20" k_velocity="50" soft_lower_limit="${-2.0943 + 0.01}" soft_upper_limit="${2.0943 - 0.01}" />
+		<limit effort="${waist_joint_effort_limit}" velocity="${waist_joint_velocity_limit}" upper="${waist_joint_upper_limit}" lower="${waist_joint_lower_limit}"/>
+		<joint_properties damping="${waist_joint_damping}" friction="{waist_joint_friction}"/>
+	</joint>
+
+	<transmission name="waist_joint_trans">
+		<type>transmission_interface/SimpleTransmission</type>
+		<joint name="waist_joint" />
+		<actuator name="waist_joint_motor">
+		   <hardwareInterface>PositionJointInterface</hardwareInterface>
+		   <mechanicalReduction>${waist_mechanical_reduction}</mechanicalReduction>
+		   <!-- motorTorqueConstant>1</motorTorqueConstant -->
+		</actuator>
+	</transmission>
+   
+  	<!-- LEFT ARM -->
+  	<link name="powerball_left_base_link">
+	  <inertial>
+          <mass value="0.1" />
+          <origin xyz="0 0 0" />
+          <inertia  ixx="1.0" ixy="0.0"  ixz="0.0"  iyy="1.0"  iyz="0.0"  izz="1.0" />
+      </inertial>
+	  
+	  <visual>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+             <box size="0.001 0.001 0.001" />
+          </geometry>
+      </visual>
+
+      <collision>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+            <box size="0.001 0.001 0.001" />
+         </geometry>
+     </collision>
+  	</link>
+  	<joint name="waist_left_powerball_joint" type="fixed">
+     		<origin xyz="0 0.150 0" rpy="1.5708 0 0" />
+     		<parent link="waist_link"/>
+     	<child link="powerball_left_base_link"/>
+  	</joint>  
+
+  	<xacro:schunk_lwa4p name="left_arm" parent="powerball_left_base_link">
+    		<origin xyz="0 0 0" rpy="${PI} 0 0" />
+  	</xacro:schunk_lwa4p>
+
+	<!-- RIGHT ARM -->
+	<link name="powerball_right_base_link">
+	</link>	
+	
+	<joint name="waist_right_powerball_joint" type="fixed">
+		<origin xyz="0 -0.150 0" rpy="1.5708 0 0" />
+		<parent link="waist_link"/>
+		<child link="powerball_right_base_link"/>
+	</joint>  
+
+	<xacro:schunk_lwa4p name="right_arm" parent="powerball_right_base_link">
+		<!--origin xyz="0 0 0" rpy="${PI} 0 ${PI}" /-->
+		<origin xyz="0 0 0" rpy="0 0 0" />
+	</xacro:schunk_lwa4p>
+
+	<!-- HEAD -->
+	 
+	<xacro:robotnik_head name="head" parent="waist_link">
+		<origin xyz="0 0 0.130" rpy="0 0 0" />
+	</xacro:robotnik_head>
+ 
+	
+	<!-- BHAND on left arm-->
+	<link name="hand_left_base_link">
+		<inertial>
+		  <mass value="50.0" />
+		  <origin xyz="0 0 0" />
+		  <inertia  ixx="1" ixy="0.0"  ixz="0"  iyy="1"  iyz="0"  izz="1" />
+		</inertial>
+		<visual>
+		   <origin xyz="0 0 0" rpy="0 0 0" />
+		   <geometry>
+		 <mesh filename="package://crom_description/meshes/components/bhand_adapter.dae"/>
+		   </geometry>
+		</visual>
+		<collision>
+		   <origin xyz="0 0 0" rpy="0 0 0 " />
+		   <geometry>
+			 <mesh filename="package://crom_description/meshes/components/bhand_adapter.dae"/>
+		   </geometry>
+		</collision>
+	</link>
+	
+	<joint name="hand_left_base_joint" type="fixed">
+		<origin xyz="0 0 0.112" rpy="0 0 -0.785398163" />
+		<parent link="left_arm_6_link"/>
+		<child link="hand_left_base_link"/>
+	</joint>
+	
+	<xacro:bhand_macro name="bh" parent="hand_left_base_link">
+		<origin xyz="0 0 0" rpy="0 0 0" />
+	</xacro:bhand_macro>
+	
+	<!-- Grasp link GRIPPER on right arm -->
+	<link name="hand_left_grasp_link">
+	</link>  
+        
+	<joint name="hand_left_grasp_joint" type="fixed">
+		<!--origin xyz="0 0 0.085" rpy="0 0 1.5708" /-->
+		<origin xyz="0 0 0.10" rpy="0.0 0.0 0.0" />
+		<parent link="hand_left_base_link"/>
+		<child link="hand_left_grasp_link"/>
+	</joint>
+	
+	<!-- CAMERA HAND on left arm -->
+	<link name="camera_1_hand_left_link"/>
+	<joint name="camera_1_hand_left_joint" type="fixed">
+		<!--origin xyz="-0.012 0 -0.09" rpy="0 3.1415 0" /-->
+		<origin xyz="0 -0.09 -0.051" rpy="-0.26 0 0" />
+		<parent link="hand_left_base_link"/>
+		<child link="camera_1_hand_left_link"/>
+	</joint> 
+	
+	<link name="camera_2_hand_left_link">
+		<visual>
+		   <origin xyz="0 0 0" rpy="0 0 0" />
+		   <geometry>
+		 <mesh filename="package://crom_description/meshes/components/camera_arm.dae"/>
+		   </geometry>
+		</visual>
+		<collision>
+		   <origin xyz="0 0 0" rpy="0 0 0 " />
+		   <geometry>
+			 <mesh filename="package://crom_description/meshes/components/camera_arm.dae"/>
+		   </geometry>
+		</collision>     
+	</link>
+	<joint name="camera_2_hand_left_joint" type="fixed">
+		<!--origin xyz="0 0 0" rpy="0 0.26 ${PI}" /-->
+		<origin xyz="0 0 0" rpy="0 -${PI_2} 0" />
+		<parent link="camera_1_hand_left_link"/>
+		<child link="camera_2_hand_left_link"/>
+	</joint> 
+	
+	<!-- GRIPPER on right arm -->
+	<link name="hand_right_base_link">
+	</link>  
+        
+	<joint name="hand_right_base_joint" type="fixed">
+		<!--origin xyz="0 0 0.085" rpy="0 0 1.5708" /-->
+		<origin xyz="0 0 0.085" rpy="1.5708 -1.5708 0.0" />
+		<parent link="right_arm_6_link"/>
+		<child link="hand_right_base_link"/>
+	</joint>
+	
+	<!-- WSG50 GRIPPER -->
+	
+	<xacro:wsg50 name="wsg50" parent="hand_right_base_link">
+		<origin xyz="0 0 0" rpy="0 1.5708 0" />
+	</xacro:wsg50>
+	
+	<!-- Grasp link GRIPPER on right arm -->
+	<link name="hand_right_grasp_link">
+	</link>  
+        
+	<joint name="hand_right_grasp_joint" type="fixed">
+		<!--origin xyz="0 0 0.085" rpy="0 0 1.5708" /-->
+		<origin xyz="0.14 0 0" rpy="0.0 0.0 0.0" />
+		<parent link="hand_right_base_link"/>
+		<child link="hand_right_grasp_link"/>
+	</joint>
+	
+	
+	<!-- CAMERA GRIPPER on right arm -->
+	<link name="camera_1_hand_right_link"/>
+	<joint name="camera_1_hand_right_joint" type="fixed">
+		<!--origin xyz="0 0.055 0.045" rpy="-1.5708 -1.5708 0.0" /-->
+		<origin xyz="0.045 0.055 0.0" rpy="-1.5708 0.0 0.0" />
+		<parent link="hand_right_base_link"/>
+		<child link="camera_1_hand_right_link"/>
+	</joint> 
+	
+	<link name="camera_2_hand_right_link">
+		<visual>
+		   <origin xyz="0 0 0" rpy="0 0 0" />
+		   <geometry>
+		 <mesh filename="package://crom_description/meshes/components/camera_arm.dae"/>
+		   </geometry>
+		</visual>
+		<collision>
+		   <origin xyz="0 0 0" rpy="0 0 0 " />
+		   <geometry>
+			 <mesh filename="package://crom_description/meshes/components/camera_arm.dae"/>
+		   </geometry>
+		</collision>     
+	</link>
+	<joint name="camera_2_hand_right_joint" type="fixed">
+		<origin xyz="0 0 0" rpy="0 0.26 0" />
+		<parent link="camera_1_hand_right_link"/>
+		<child link="camera_2_hand_right_link"/>
+	</joint> 	
+	
+</robot>
+

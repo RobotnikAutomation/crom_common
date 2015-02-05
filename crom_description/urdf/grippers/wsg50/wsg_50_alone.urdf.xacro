@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<robot name="wsg50" >
+
+  <!-- wsg50 -->
+  <xacro:include filename="$(find crom_description)/urdf/grippers/wsg50/wsg50.urdf.xacro" />
+
+	<!-- foot for arm -->
+	<link name="base_link">
+
+	</link>
+
+  <!-- gripper -->
+  <xacro:wsg_50 name="wsg50" parent="base_link">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </xacro:wsg_50>
+
+</robot>
