@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot name="torso" xmlns:xacro="http://www.ros.org/wiki/xacro"> 
+<robot name="crom" xmlns:xacro="http://www.ros.org/wiki/xacro"> 
 
   <!-- Import all Gazebo-customization elements, including Gazebo colors -->
   <xacro:include filename="$(find crom_description)/urdf/robot/crom.gazebo" />
@@ -30,11 +30,7 @@
   <xacro:property name="waist_joint_lower_limit" value="-2.967059678" /> <!-- -170 -->
   <xacro:property name="waist_mechanical_reduction" value="1.0" />
 
-  <gazebo>
-	<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-	<robotNamespace>/crom</robotNamespace>
-	</plugin>
-  </gazebo>
+  
   
   
   <!-- Used for fixing robot to Gazebo 'base_link' -->
