@@ -4,7 +4,7 @@
   
   <gazebo>
 	<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-		<!-- robotNamespace>/crom</robotNamespace -->
+		<robotNamespace>/crom</robotNamespace>
 		<controlPeriod>0.001</controlPeriod>
 		<robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
 	</plugin>
@@ -49,7 +49,7 @@
       <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
         <alwaysOn>true</alwaysOn>
         <updateRate>0.0</updateRate>
-        <cameraName>camera_hand_left</cameraName>
+        <cameraName>crom/camera_hand_left</cameraName>
         <imageTopicName>image_raw</imageTopicName>
         <cameraInfoTopicName>camera_hand_left_info</cameraInfoTopicName>
         <frameName>camera_2_hand_left_link</frameName>
@@ -90,7 +90,7 @@
       <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
         <alwaysOn>true</alwaysOn>
         <updateRate>0.0</updateRate>
-        <cameraName>camera_hand_right</cameraName>
+        <cameraName>crom/camera_hand_right</cameraName>
         <imageTopicName>image_raw</imageTopicName>
         <cameraInfoTopicName>camera_hand_right_info</cameraInfoTopicName>
         <frameName>camera_2_hand_right_link</frameName>
@@ -131,7 +131,7 @@
       <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
         <alwaysOn>true</alwaysOn>
         <updateRate>0.0</updateRate>
-        <cameraName>camera_head_left</cameraName>
+        <cameraName>crom/camera_head_left</cameraName>
         <imageTopicName>image_raw</imageTopicName>
         <cameraInfoTopicName>camera_head_left_info</cameraInfoTopicName>
         <frameName>camera_head_left_link</frameName>
@@ -172,7 +172,7 @@
       <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
         <alwaysOn>true</alwaysOn>
         <updateRate>0.0</updateRate>
-        <cameraName>camera_head_right</cameraName>
+        <cameraName>crom/camera_head_right</cameraName>
         <imageTopicName>image_raw</imageTopicName>
         <cameraInfoTopicName>camera_head_right_info</cameraInfoTopicName>
         <frameName>camera_hand_right_link</frameName>
@@ -209,7 +209,7 @@
         <plugin name="camera_controller" filename="libgazebo_ros_openni_kinect.so">
             <alwaysOn>true</alwaysOn>
 			<updateRate>10.0</updateRate>
-			<cameraName>kinect</cameraName>
+			<cameraName>crom/kinect</cameraName>
 			<frameName>head_kinect_link</frameName>                   
             <imageTopicName>rgb/image_raw</imageTopicName>
             <depthImageTopicName>depth/image_raw</depthImageTopicName>
