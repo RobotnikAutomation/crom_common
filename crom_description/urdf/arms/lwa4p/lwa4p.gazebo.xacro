@@ -4,43 +4,43 @@
 	<xacro:macro name="schunk_lwa4p_gazebo" params="name">
 
 		<gazebo reference="${name}_0_link">
-			<material>Schunk/LightGrey</material>
+			<material>Gazebo/Grey</material>
 			<turnGravityOff>false</turnGravityOff>
             <selfCollide>true</selfCollide>
 		</gazebo>
 
 		<gazebo reference="${name}_1_link">
-			<material>Schunk/Blue</material>
+			<material>Gazebo/Grey</material>
 			<turnGravityOff>false</turnGravityOff>
             <selfCollide>true</selfCollide>
 		</gazebo>
 
 		<gazebo reference="${name}_2_link">
-			<material>Schunk/LightGrey</material>
+			<material>Gazebo/Blue</material>
 			<turnGravityOff>false</turnGravityOff>
             <selfCollide>true</selfCollide>
 		</gazebo>
 
 		<gazebo reference="${name}_3_link">
-			<material>Schunk/Blue</material>
+			<material>Gazebo/Grey</material>
 			<turnGravityOff>false</turnGravityOff>
              <selfCollide>true</selfCollide>
 		</gazebo>
 
 		<gazebo reference="${name}_4_link">
-			<material>Schunk/LightGrey</material>
+			<material>Gazebo/Blue</material>
 			<turnGravityOff>false</turnGravityOff>
             <selfCollide>true</selfCollide>
 		</gazebo>
 
 		<gazebo reference="${name}_5_link">
-			<material>Schunk/Blue</material>
+			<material>Gazebo/Grey</material>
 			<turnGravityOff>false</turnGravityOff>
             <selfCollide>true</selfCollide>
 		</gazebo>
 
 		<gazebo reference="${name}_6_link">
-			<material>Schunk/LightGrey</material>
+			<material>Gazebo/Grey</material>
 			<turnGravityOff>false</turnGravityOff>
             <selfCollide>true</selfCollide>
 		</gazebo>

@@ -13,11 +13,13 @@
   <gazebo reference="base_link">
     <material>Gazebo/FlatBlack</material>
     <turnGravityOff>false</turnGravityOff>
+    <selfCollide>true</selfCollide>
   </gazebo>
   
   <gazebo reference="waist_link">
-    <material>Schunk/Blue</material>
+    <material>Gazebo/Blue</material>
     <turnGravityOff>false</turnGravityOff>
+    <selfCollide>true</selfCollide>
   </gazebo>
   
   <!--Cameras-->
