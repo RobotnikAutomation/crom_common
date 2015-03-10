@@ -4,6 +4,9 @@
 	<xacro:include filename="$(find crom_description)/urdf/arms/lwa4p/lwa4p.gazebo.xacro" />
 	<xacro:include filename="$(find crom_description)/urdf/arms/lwa4p/lwa4p.transmission.xacro" />
 	
+	 <!-- calibration -->
+    <xacro:include filename="$(find crom_description)/urdf/arms/lwa4p/calibration.urdf.xacro" />
+	
 	<xacro:property name="joint_1_upper_limit" value="2.967059678" /> <!-- 170º -->
 	<xacro:property name="joint_1_lower_limit" value="-2.967059678" /> <!-- -170º -->
 	<xacro:property name="joint_2_upper_limit" value="1.919862144" /> <!-- 110º -->
@@ -45,7 +48,7 @@
 				<geometry>
 					<mesh filename="package://crom_description/meshes/arms/lwa4p/stl/arm_base.stl" />
 				</geometry>
-				<material name="Schunk/LightGrey" />
+				<material name="schunk_light_grey" />
 			</visual>
 			
 			<collision>
@@ -80,7 +83,7 @@
 				<geometry>
 					<mesh filename="package://crom_description/meshes/arms/lwa4p/stl/arm_1_link.stl" />
 				</geometry>
-				<material name="Schunk/Blue" />
+				<material name="schunk_light_grey" />
 			</visual>
 			
 			<collision>
@@ -115,7 +118,7 @@
 				<geometry>
 					<mesh filename="package://crom_description/meshes/arms/lwa4p/stl/arm_2_link.stl" />
 				</geometry>
-				<material name="Schunk/LightGrey" />
+				<material name="schunk_blue" />
 			</visual>
 			
 			<collision>
@@ -150,7 +153,7 @@
 				<geometry>
 					<mesh filename="package://crom_description/meshes/arms/lwa4p/stl/arm_3_link.stl" />
 				</geometry>
-				<material name="Schunk/Blue" />
+				<material name="schunk_light_grey" />
 			</visual>
 			
 			<collision>
@@ -185,7 +188,7 @@
 				<geometry>
 					<mesh filename="package://crom_description/meshes/arms/lwa4p/stl/arm_4_link.stl" />
 				</geometry>
-				<material name="Schunk/LightGrey" />
+				<material name="schunk_blue" />
 			</visual>
 			
 			<collision>
@@ -220,7 +223,7 @@
 				<geometry>
 					<mesh filename="package://crom_description/meshes/arms/lwa4p/stl/arm_5_link.stl" />
 				</geometry>
-				<material name="Schunk/Blue" />
+				<material name="schunk_light_grey" />
 			</visual>
 			
 			<collision>
@@ -255,7 +258,7 @@
 				<geometry>
 					<mesh filename="package://crom_description/meshes/arms/lwa4p/stl/arm_6_link.stl" />
 				</geometry>
-				<material name="Schunk/LightGrey" />
+				<material name="schunk_light_grey" />
 			</visual>
 			
 			<collision>

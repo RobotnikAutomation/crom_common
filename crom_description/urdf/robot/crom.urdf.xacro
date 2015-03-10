@@ -5,8 +5,7 @@
   <xacro:include filename="$(find crom_description)/urdf/robot/crom.gazebo" />
   
   <xacro:include filename="$(find crom_description)/urdf/arms/lwa4p/materials.urdf.xacro" />
-  <!-- calibration -->
-  <xacro:include filename="$(find crom_description)/urdf/arms/lwa4p/calibration.urdf.xacro" />
+ 
   <!-- schunk powerball -->
   <xacro:include filename="$(find crom_description)/urdf/arms/lwa4p/lwa4p.urdf.xacro" /> 
   <!-- Barrett Hand -->
@@ -101,16 +100,14 @@
 		<visual>
 		   <origin xyz="0 0 0" rpy="0 0 0" /> 
 		   <geometry>
-			 <mesh filename="package://crom_description/meshes/torso/torso_body.dae"/>
+			 <mesh filename="package://crom_description/meshes/torso/torso_body.stl"/>
 		   </geometry>
-		<material name="Red">
-			<color rgba="0.3 0.3 0.3 1"/>
-			</material>
+		   <material name="schunk_blue"/>
 		</visual>
 		<collision>
 		   <origin xyz="0 0 0" rpy="0 0 0" /> 
 		   <geometry>
-			 <mesh filename="package://crom_description/meshes/torso/torso_body.dae"/>
+			 <mesh filename="package://crom_description/meshes/torso/torso_body.stl"/>
 		   </geometry>
 		</collision>
 	</link>
