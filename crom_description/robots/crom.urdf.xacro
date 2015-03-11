@@ -12,7 +12,7 @@
   <xacro:include filename="$(find crom_description)/urdf/hands/bhand/bh282.urdf.xacro"/>
   <!-- Head -->
   <xacro:include filename="$(find crom_description)/urdf/head/head.urdf.xacro"/>
-  <xacro:include filename="$(find crom_description)/urdf/head/head.gazebo" />
+  
   <!-- WSG50 GRIPPER -->
   <xacro:include filename="$(find crom_description)/urdf/grippers/wsg50/wsg50.urdf.xacro" />
   <!--xacro:include filename="$(find crom_description)/urdf/grippers/wsg50/wsg50.gazebo"/-->
@@ -183,7 +183,6 @@
 	</xacro:schunk_lwa4p>
 
 	<!-- HEAD -->
-	 
 	<xacro:robotnik_head name="head" parent="waist_link">
 		<origin xyz="0 0 0.130" rpy="0 0 0" />
 	</xacro:robotnik_head>
@@ -255,7 +254,6 @@
 		</collision>     
 	</link>
 	<joint name="camera_2_hand_left_joint" type="fixed">
-		<!--origin xyz="0 0 0" rpy="0 0.26 ${PI}" /-->
 		<origin xyz="0 0 0" rpy="0 -${PI_2} 0" />
 		<parent link="camera_1_hand_left_link"/>
 		<child link="camera_2_hand_left_link"/>
@@ -266,7 +264,6 @@
 	</link>  
         
 	<joint name="hand_right_base_joint" type="fixed">
-		<!--origin xyz="0 0 0.085" rpy="0 0 1.5708" /-->
 		<origin xyz="0 0 0.085" rpy="1.5708 -1.5708 0.0" />
 		<parent link="right_arm_6_link"/>
 		<child link="hand_right_base_link"/>
@@ -283,7 +280,6 @@
 	</link>  
         
 	<joint name="hand_right_grasp_joint" type="fixed">
-		<!--origin xyz="0 0 0.085" rpy="0 0 1.5708" /-->
 		<origin xyz="0.14 0 0" rpy="0.0 0.0 0.0" />
 		<parent link="hand_right_base_link"/>
 		<child link="hand_right_grasp_link"/>
@@ -293,7 +289,6 @@
 	<!-- CAMERA GRIPPER on right arm -->
 	<link name="camera_1_hand_right_link"/>
 	<joint name="camera_1_hand_right_joint" type="fixed">
-		<!--origin xyz="0 0.055 0.045" rpy="-1.5708 -1.5708 0.0" /-->
 		<origin xyz="0.045 0.055 0.0" rpy="-1.5708 0.0 0.0" />
 		<parent link="hand_right_base_link"/>
 		<child link="camera_1_hand_right_link"/>

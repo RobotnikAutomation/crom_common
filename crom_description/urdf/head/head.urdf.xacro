@@ -2,6 +2,9 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro"> 
 	
+	<xacro:include filename="$(find crom_description)/urdf/head/head.gazebo" />
+	<xacro:include filename="$(find crom_description)/urdf/head/kinect.urdf.xacro" />
+	
 	<!-- Robot mechanical and motor parameters -->
 	<xacro:property name="PI" value="3.1415926535897931"/>
 	<xacro:property name="head_joint_damping" value="0.0" />
@@ -214,24 +217,13 @@
 			<axis xyz="0 0 1" rpy="0 0 0" />
 		</joint>
 		
-		<!--link name="${name}_kinect_frame_link">
-			<inertial>
-				<mass value="0.01" />
-				<origin xyz="0 0 0" />
-			<inertia  ixx="0.059" ixy="0.0"  ixz="0.0"  iyy="0.055"  iyz="0.0"  izz="0.059" />
-		</inertial>
-		</link>
-		
-		<joint name="${name}_kinect_frame_joint" type="fixed">
-			<parent link="${name}_kinect_link"/>
-			<child link="${name}_kinect_frame_link"/>
-			<origin xyz="0.5 0 0" rpy="0 1.57 1.57" /> 
-			<axis xyz="0 0 1" rpy="0 0 0" />
-		</joint-->
 
 		<!-- Import all Gazebo-customization elements, including Gazebo colors -->
-		<!--include filename="$(find robotnik_torso_description)/urdf/head.gazebo" /-->
 		<xacro:head_gazebo name="${name}" />
+		
+		<xacro:sensor_kinect name="kinect" parent="${name}_kinect_link">
+			<origin xyz="0.0 0 0.0365" rpy="0 0 0"/>
+		</xacro:sensor_kinect>
 	  
 			
 	    
