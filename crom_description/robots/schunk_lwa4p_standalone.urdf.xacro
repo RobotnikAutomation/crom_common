@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<robot name="lwa4p" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+	<!-- common stuff -->
+	<xacro:include filename="$(find crom_description)/urdf/arms/lwa4p/common.xacro" />
+	<xacro:include filename="$(find crom_description)/urdf/arms/lwa4p/materials.urdf.xacro" />
+	<!-- calibration -->
+	<xacro:include filename="$(find crom_description)/urdf/arms/lwa4p/calibration.urdf.xacro" />
+
+	<!-- schunk powerball -->
+	<xacro:include filename="$(find crom_description)/urdf/arms/lwa4p/lwa4p.urdf.xacro" /> 
+	<xacro:include filename="$(find crom_description)/urdf/grippers/wsg50/wsg50.urdf.xacro" />
+	
+	<!-- foot for arm -->
+	<link name="base_link">
+
+	</link>
+	<!-- LEFT ARM -->
+	<xacro:schunk_lwa4p name="lwa4p_arm" parent="base_link">
+		<origin xyz="0 0 0" rpy="0 0 0" />
+	</xacro:schunk_lwa4p>
+	<!-- GRIPPER -->
+	<xacro:wsg50 name="wsg50" parent="lwa4p_arm_6_link">
+		<origin xyz="0 0 0.085" rpy="0 0 1.5708" />
+	</xacro:wsg50>
+	
+</robot>
