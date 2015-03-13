@@ -12,10 +12,44 @@
 	<xacro:include filename="$(find crom_description)/urdf/arms/lwa4p/lwa4p.urdf.xacro" /> 
 	<xacro:include filename="$(find crom_description)/urdf/grippers/wsg50/wsg50.urdf.xacro" />
 	
-	<!-- foot for arm -->
-	<link name="base_link">
+	 <link name="world"/>
 
+  <joint name="fixed" type="fixed">
+	<parent link="world"/>
+	<child link="base_footprint"/>
+  </joint>
+
+  <!-- BASE FOOTPRINT -->
+  <!-- base_footprint is a fictitious link(frame) that is on the ground right below base_link origin,
+             navigation stack depends on this frame -->
+  <link name="base_footprint">
+      <visual>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+             <box size="0.001 0.001 0.001" />
+          </geometry>
+      </visual>
+
+      <collision>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <geometry>
+            <box size="0.001 0.001 0.001" />
+         </geometry>
+     </collision>
+  </link>
+
+  <joint name="base_footprint_joint" type="fixed">
+     <origin xyz="0 0 0" rpy="0 0 0" />
+     <parent link="base_footprint"/>
+     <child link="base_link" />
+  </joint>
+
+
+	<!-- BASE_LINK (RED) -->
+	<link name="base_link">
 	</link>
+
+
 	<!-- LEFT ARM -->
 	<xacro:schunk_lwa4p name="lwa4p_arm" parent="base_link">
 		<origin xyz="0 0 0" rpy="0 0 0" />
