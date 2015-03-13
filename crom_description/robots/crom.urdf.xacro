@@ -72,7 +72,7 @@
 	<!-- BASE_LINK (RED) -->
 	<link name="base_link">
 		<inertial>
-		  <mass value="400.0" />
+		  <mass value="800.0" />
 		  <origin xyz="0 0 0" />
 		  <inertia  ixx="3.737" ixy="0.008"  ixz="-0.144"  iyy="8.311"  iyz="-0.004"  izz="8.893" />
 		</inertial>
@@ -86,7 +86,7 @@
 		<collision>
 		   <origin xyz="0 0 0" rpy="0 0 0 " />
 		   <geometry>
-			 <mesh filename="package://crom_description/meshes/torso/torso_base.stl"/>
+			 <mesh filename="package://crom_description/meshes/torso/torso_base.dae"/>
 		   </geometry>
 		</collision>     
 	</link>
@@ -108,7 +108,7 @@
 		<collision>
 		   <origin xyz="0 0 0" rpy="0 0 0" /> 
 		   <geometry>
-			 <mesh filename="package://crom_description/meshes/torso/torso_body.stl"/>
+			 <mesh filename="package://crom_description/meshes/torso/torso_body.dae"/>
 		   </geometry>
 		</collision>
 	</link>
@@ -225,8 +225,8 @@
         
 	<joint name="hand_left_grasp_joint" type="fixed">
 		<!--origin xyz="0 0 0.085" rpy="0 0 1.5708" /-->
-		<origin xyz="0 0 0.10" rpy="0.0 0.0 0.0" />
-		<parent link="hand_left_base_link"/>
+		<origin xyz="0 0 0.212" rpy="0.0 0.0 0.0" />
+		<parent link="left_arm_6_link"/>
 		<child link="hand_left_grasp_link"/>
 	</joint>
 	
