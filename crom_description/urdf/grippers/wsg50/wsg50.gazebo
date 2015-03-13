@@ -10,22 +10,22 @@
 		</gazebo>
 	
 		<gazebo reference="${name}_finger_1_start_link">
-			<material>Gazebo/Red</material>
+			<material>Gazebo/Black</material>
 			<turnGravityOff>true</turnGravityOff>
 		</gazebo>
 
 		<gazebo reference="${name}_finger_1_link">
-			<material>Gazebo/Red</material>
+			<material>Gazebo/Black</material>
 			<turnGravityOff>true</turnGravityOff>
 		</gazebo>
 
 		<gazebo reference="${name}_finger_2_start_link">
-			<material>Gazebo/White</material>
+			<material>Gazebo/Black</material>
 			<turnGravityOff>true</turnGravityOff>
 		</gazebo>
 
 		<gazebo reference="${name}_finger_2_link">
-			<material>Gazebo/White</material>
+			<material>Gazebo/Black</material>
 			<turnGravityOff>true</turnGravityOff>
 		</gazebo>
 
