@@ -54,7 +54,7 @@
 			<collision>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://crom_description/meshes/arms/lwa4p/stl/arm_base.stl" />
+					<mesh filename="package://crom_description/meshes/arms/lwa4p/dae/arm_base.dae" />
 				</geometry>
 			</collision>
 		</link>
@@ -89,7 +89,7 @@
 			<collision>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://crom_description/meshes/arms/lwa4p/stl/arm_1_link.stl" />
+					<mesh filename="package://crom_description/meshes/arms/lwa4p/dae/arm_1_link.dae" />
 				</geometry>
 			</collision>
 		</link>
@@ -124,7 +124,7 @@
 			<collision>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://crom_description/meshes/arms/lwa4p/stl/arm_2_link.stl" />
+					<mesh filename="package://crom_description/meshes/arms/lwa4p/dae/arm_2_link.dae" />
 				</geometry>
 			</collision>
 		</link>
@@ -159,7 +159,7 @@
 			<collision>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://crom_description/meshes/arms/lwa4p/stl/arm_3_link.stl" />
+					<mesh filename="package://crom_description/meshes/arms/lwa4p/dae/arm_3_link.dae" />
 				</geometry>
 			</collision>
 		</link>	
@@ -194,7 +194,7 @@
 			<collision>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://crom_description/meshes/arms/lwa4p/stl/arm_4_link.stl" />
+					<mesh filename="package://crom_description/meshes/arms/lwa4p/dae/arm_4_link.dae" />
 				</geometry>
 			</collision>
 		</link>
@@ -229,7 +229,7 @@
 			<collision>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://crom_description/meshes/arms/lwa4p/stl/arm_5_link.stl" />
+					<mesh filename="package://crom_description/meshes/arms/lwa4p/dae/arm_5_link.dae" />
 				</geometry>
 			</collision>
 		</link>
@@ -264,7 +264,7 @@
 			<collision>
 				<origin xyz="0 0 0" rpy="0 0 0" />
 				<geometry>
-					<mesh filename="package://crom_description/meshes/arms/lwa4p/stl/arm_6_link.stl" />
+					<mesh filename="package://crom_description/meshes/arms/lwa4p/dae/arm_6_link.dae" />
 				</geometry>
 			</collision>
 		</link>
