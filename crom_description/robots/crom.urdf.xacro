@@ -134,6 +134,24 @@
 		   <!-- motorTorqueConstant>1</motorTorqueConstant -->
 		</actuator>
 	</transmission>
+   <!-- LOGO -->
+   <link name="logo_link">		
+		<visual>
+		   <origin xyz="0.0 0 0.0" rpy="0 0 0" /> 
+		   <geometry>
+			 <mesh filename="package://crom_description/meshes/torso/torso_logo.dae"/>
+		   </geometry>
+		   <material name="red">
+			 <color rgba="0.8 0.1 0.1 1"/>
+		   </material>
+		</visual>
+	</link>
+
+	<joint name="logo_joint" type="fixed">
+		<parent link="waist_link"/>
+		<child link="logo_link"/>
+		<origin xyz="0.002 0 0" rpy="0 0 0" /> 
+	</joint>
    
   	<!-- LEFT ARM -->
   	<link name="powerball_left_base_link">
